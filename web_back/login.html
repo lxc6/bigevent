@@ -24,10 +24,10 @@
             <form class="login_form">
                 <i class="iconfont icon-user"></i>
                 <i class="iconfont icon-key"></i>
-                <input id="userName" type="text" class="input_txt" placeholder="用户名">
-                <input id="password" type="password" class="input_pass" placeholder="密码">
+                <input id="userName" type="text" class="input_txt key_001" placeholder="用户名">
+                <input id="password" type="password" class="input_pass key_001" placeholder="密码">
                 <!-- 如果submit 在表单中  会提交行为 改为button-->
-                <input id="btnLogin" type="button" class="input_sub" value="登 录">
+                <input id="btnLogin" type="button" class="input_sub key_001" value="登 录">
             </form>
         </div>
     </div>
@@ -78,6 +78,13 @@
                 alert(res.msg)
             }
         })
+    })
+    $('.key_001').keyup(function (e) {
+        // 键盘事件对象
+        if (e.keyCode == 13) {
+            $('#btnLogin').click();
+        }
+
     })
 </script>
 
