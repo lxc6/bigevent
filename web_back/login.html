@@ -34,7 +34,7 @@
 </body>
 
 
-<script>
+<!-- <script>
     var user = {
         login: function (name, password) {
             // 语义化
@@ -52,9 +52,9 @@
             })
         }
     }
-</script>
-
-
+</script> -->
+<script src="./js/util/config.js"></script>
+<script src="./js/util/user.js"></script>
 
 <script>
     // 1. 用户的登录
@@ -69,8 +69,15 @@
             return
         }
         // 调用 请求
-        user.login(name, password);
-
+        user.login(name, password).then(function (res) {
+            // 判断成功失败
+            if (res.code === 200) {
+                // alert('登陆成功') 跳转 主页面
+                window.location.href = './index.html'
+            } else {
+                alert(res.msg)
+            }
+        })
     })
 </script>
 
