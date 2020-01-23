@@ -28,38 +28,8 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>未分类</td>
-                        <td>uncategorized</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>奇趣事</td>
-                        <td>funny</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;2&quot;,&quot;slug&quot;:&quot;funny&quot;,&quot;name&quot;:&quot;奇趣事&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>会生活</td>
-                        <td>living</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;3&quot;,&quot;slug&quot;:&quot;living&quot;,&quot;name&quot;:&quot;会生活&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 3 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-
-                    <tr>
+                <tbody id="tbody">
+                    <!-- <tr>
                         <td>爱旅行</td>
                         <td>travel</td>
                         <td class="text-center">
@@ -67,7 +37,7 @@
                                 class="btn btn-info btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 4 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
                 <tfoot>
                     <tr>
@@ -79,7 +49,7 @@
             </table>
         </div>
     </div>
-
+    <!-- 模态框  bootstrap模板 -->
     <div class="modal fade" id="addModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -91,16 +61,16 @@
                     <form>
                         <div class="form-group">
                             <label for="recipient-name" class="control-label">分类名称:</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <input type="text" class="form-control" id="name">
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="control-label">分类别名:</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <input type="text" class="form-control" id="slug">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="model_shutoff">关闭</button>
+                    <button type="button" class="btn btn-default" id="model_off">关闭</button>
                     <button type="button" class="btn btn-primary" id="model_add">新增</button>
                 </div>
             </div>
@@ -130,7 +100,93 @@
         //     }
         // })      
     </script>
+    <script src="./js/util/config.js"></script>
+    <script src="./js/util/category.js"></script>
+    <script src="./js/template-web.js"></script>
+    <!-- 模板 -->
+    <script id="tmp_cate" type="text/html">
+        {{each data item}}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.slug}}</td>
+            <td class="text-center">
+                <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"
+                    class="btn btn-info btn-xs">编辑</a>
+                <!-- 取消默认跳转                                    添加del类     设置id对应数据id  -->
+                <a href="javascript:;" class="btn btn-danger btn-xs del" data_id="{{item.id}}">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+    <script>
+        // 增 删 改 查
+        // 思路 1. 从接口获取数据显示在表格上
+        //      2.点击 获取用户输入数据
+        //         点击新增 清除文本 关闭 弹窗
+        // 3.发送请求 4.接收请求结果后续dom 
 
+        // 1.查 和 显示
+        var GetAndShow = function () {
+            category.get().then(function (res) {
+                var htmlStr = template('tmp_cate', res)
+                //将获得的模板字符添加到html中
+                $('tbody').html(htmlStr)
+                // console.log(htmlStr);
+            });
+        }
+        GetAndShow();
+        // 2.新增  弹出模态框 收集信息 判空  发送请求  后续
+
+        $('#model_add').click(function () {
+            // 获取信息
+            var name = $('#name').val().trim()
+            var slug = $('#slug').val().trim()
+            if (name.length === 0 || slug.length === 0) {
+                alert('内容不能为空！')
+                return
+            }
+            category.add(name, slug).then(function (res) {
+                // 判断成功失败
+                if (res.code === 200) {
+                    // 再执行一遍1 所以封装1  
+                    GetAndShow()
+                    // 清空
+                    $('#name').val('')
+                    $('#slug').val('')
+                    // 隐藏模态框
+                    $('#addModal').modal('hide')
+                } else {
+                    alert(res.msg);
+
+                }
+
+
+            })
+
+        })
+        // 点击关闭 隐藏模态框
+        $('#model_off').click(function () {
+            // 隐藏模态框
+            $('#addModal').modal('hide')
+        })
+
+        // 3.删除     事件委托  点击事件 拿到id  请求接口  根据响应后续
+        $('#tbody').on('click', '.del', function () {
+            // 生成按钮时  设置自定义属性   获取自定义属性
+            var id = $(this).attr('data_id')
+            // 请求接口
+            category.del(id).then(function (res) {
+                if (res.code === 200) {
+                    GetAndShow();
+                } else {
+                    alert(res.msg);
+
+                }
+
+            })
+
+        })
+    </script>
 </body>
 
 </html>
