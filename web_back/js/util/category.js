@@ -14,5 +14,13 @@ var category = {
         return $.post(APILIST.category_del, {
             'id': id
         })
+    },
+    edit: function (id, name, slug) {
+        return $.post(APILIST.category_edit, {
+            'id': id,
+            'name': name,
+            'slug': slug
+        })
+
     }
 }

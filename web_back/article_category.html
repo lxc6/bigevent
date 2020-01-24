@@ -49,7 +49,7 @@
             </table>
         </div>
     </div>
-    <!-- 模态框  bootstrap模板 -->
+    <!-- 模态框  bootstrap模板    添加 -->
     <div class="modal fade" id="addModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -76,7 +76,37 @@
             </div>
         </div>
     </div>
+    <!-- 模态框 默认为隐藏（透明度）  bootstrap模板    编辑 -->
+    <div class="modal fade" id="editModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title">编辑分类</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
 
+                        <!-- 添加id  hidden页面不可见 支持dom操作 -->
+                        <input type="hidden" class="form-control" id="edit_id">
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">分类名称:</label>
+                            <input type="text" class="form-control" id="edit_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">分类别名:</label>
+                            <input type="text" class="form-control" id="edit_slug">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="edit_off">关闭</button>
+                    <button type="button" class="btn btn-primary" id="model_slave">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         // $('#addModal').modal({
         //     show: false,
@@ -110,8 +140,8 @@
             <td>{{item.name}}</td>
             <td>{{item.slug}}</td>
             <td class="text-center">
-                <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"
-                    class="btn btn-info btn-xs">编辑</a>
+                <a href="javascript:;" data_name="{{item.name}}" data_slug="{{item.slug}}" data_id="{{item.id}}"
+                    class="btn btn-info btn-xs edit">编辑</a>
                 <!-- 取消默认跳转                                    添加del类     设置id对应数据id  -->
                 <a href="javascript:;" class="btn btn-danger btn-xs del" data_id="{{item.id}}">删除</a>
             </td>
@@ -128,6 +158,7 @@
         // 1.查 和 显示
         var GetAndShow = function () {
             category.get().then(function (res) {
+                // 固定写法-------------模板id ,模板数据对象
                 var htmlStr = template('tmp_cate', res)
                 //将获得的模板字符添加到html中
                 $('tbody').html(htmlStr)
@@ -135,8 +166,8 @@
             });
         }
         GetAndShow();
-        // 2.新增  弹出模态框 收集信息 判空  发送请求  后续
 
+        // 2.新增  弹出模态框 收集信息 判空  发送请求  后续
         $('#model_add').click(function () {
             // 获取信息
             var name = $('#name').val().trim()
@@ -157,13 +188,9 @@
                     $('#addModal').modal('hide')
                 } else {
                     alert(res.msg);
-
                 }
-
-
             })
-
-        })
+        });
         // 点击关闭 隐藏模态框
         $('#model_off').click(function () {
             // 隐藏模态框
@@ -180,12 +207,47 @@
                     GetAndShow();
                 } else {
                     alert(res.msg);
-
                 }
-
             })
+        });
 
-        })
+        // 4.编辑   点击事件  弹出模态框  获取文本框信息 增删改信息 判空 请求接口 后续
+        $('#tbody').on('click', '.edit', function () {
+            // 编辑与删除类似需要用到自定义属性 添加自定义属性
+            // 获取值
+            var id = $(this).attr('data_id')
+            var name = $(this).attr('data_name')
+            var slug = $(this).attr('data_slug')
+            // 给模态框设置
+            $('#edit_id').val(id)
+            $('#edit_name').val(name)
+            $('#edit_slug').val(slug)
+            // 弹出模态框
+            $('#editModal').modal('show')
+        });
+        // 点击实现保存修改
+        $('#model_slave').click(function () {
+            var new_id = $('#edit_id').val().trim()
+            var new_name = $('#edit_name').val().trim()
+            var new_slug = $('#edit_slug').val().trim()
+            if (new_name.length === 0 || new_slug.length === 0) {
+                alert('内容不能为空！')
+                return
+            }
+            // 发送请求
+            // 接口参数有3个  id 需在html中添加一个隐藏文本框
+            category.edit(new_id, new_name, new_slug).then(function (res) {
+                if (res.code === 200) {
+                    GetAndShow()
+                    $('#editModal').modal('hide')
+                } else {
+                    alert(res.msg)
+                }
+            })
+        });
+        $('#edit_off').click(function () {
+            $('#editModal').modal('hide')
+        });
     </script>
 </body>
 
