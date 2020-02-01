@@ -21,5 +21,8 @@ var APILIST = {
     category_edit: BASEURL + '/admin/category_edit',
 
     // 文章操作接口
+    // 获取
     article_get: BASEURL + '/admin/search',
+    // 删除
+    article_del: BASEURL + '/admin/article_delete',
 }

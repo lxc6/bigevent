@@ -2,9 +2,17 @@
 // 类别管理
 var article = {
     // 传参 page  获取页数
-    get: function (page) {
+    get: function (page, type, status) {
         return $.get(APILIST.article_get, {
-            'page': page
+            'page': page,
+            'type': type,
+            'state': status,
+
+        })
+    },
+    del: function (id) {
+        return $.get(APILIST.article_del, {
+            'id': id
         })
     },
     // add: function (name, slug) {
@@ -13,11 +21,7 @@ var article = {
     //         'slug': slug
     //     })
     // },
-    // del: function (id) {
-    //     return $.post(APILIST.category_del, {
-    //         'id': id
-    //     })
-    // },
+
     // edit: function (id, name, slug) {
     //     return $.post(APILIST.category_edit, {
     //         'id': id,
