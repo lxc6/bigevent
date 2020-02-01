@@ -13,6 +13,7 @@
     <link type="text/css" rel="stylesheet" href="js/jedate/css/jedate.css">
     <script src="js/jquery-1.12.4.min.js"></script>
     <script src="js/jedate/js/jedate.js"></script>
+    <!-- 引入富文本编辑器 -->
     <script src="js/tinymce/js/tinymce/tinymce.min.js"></script>
     <script src="js/tinymce/js/tinymce_setup.js"></script>
 </head>
@@ -23,28 +24,28 @@
             写文章
         </div>
         <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
+            <form class="form-horizontal article_form" id="myForm">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3" placeholder="文章标题">
+                        <input name="title" type="email" class="form-control" id="inputEmail3" placeholder="文章标题">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <input type="file" id="exampleInputFile">
+                        <input name="cover" type="file" id="exampleInputFile">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control">
-                            <option>1</option>
+                        <select id="selCategory" name="type" class="form-control">
+                            <!-- <option>1</option>
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>
-                            <option>5</option>
+                            <option>5</option> -->
                         </select>
                     </div>
                 </div>
@@ -53,7 +54,7 @@
                     <div class="col-sm-4">
 
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
+                            <input name="date" type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
@@ -66,19 +67,71 @@
                     <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" id="rich_content" name="content" placeholder="文章内容">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda fugiat illo nihil molestias ab. Laborum eius non atque, totam sapiente quae obcaecati assumenda ratione inventore pariatur maiores, qui libero delectus.
+                            tinyMCE.activeEditor.getContent()
                             </textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">发布</button>
+                        <button type="button" class="btn btn-success" id="btnAdd">发布</button>
                         <button type="submit" class="btn btn-default">存为草稿</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+    <script src="./js/util/config.js"></script>
+    <script src="./js/util/article.js"></script>
+    <script src="./js/util/category.js"></script>
+    <script src="./js/template-web.js"></script>
+    <script id="tmp_select" type="text/html">
+        {{each data item}}
+        <option value="{{item.id}}">{{item.name}}</option>
+        {{/each}}
+    </script>
+    <!-- 点击添加 -->
+    <script>
+        // 1.添加
+        $('#btnAdd').click(function () {
+
+            // 获取表单中用户填入的信息    通过new FormData快速获取户填入的信息 
+            // 必须有name属性   ， 并且要与接口中的参数一致
+            var fd = new FormData(document.getElementById('myForm'))
+            // 手动添加一个参数  （form中没有的）需手动添加
+            fd.append('state', '已发布')
+            //获取富文本编辑器中的内容
+            fd.set('content', tinyMCE.activeEditor.getContent())
+            article.add(fd).then(function (res) {
+                console.log(res);
+
+            })
+        });
+        // 2.获取文章类别并显示于下拉列表
+        category.get().then(function (res) {
+            console.log(res);
+            if (res.code === 200) {
+                // 渲染
+                var htmlStr = template('tmp_select', res);
+                $('#selCategory').html(htmlStr)
+            } else {
+                alert(res.msg)
+            }
+
+        })
+    </script>
+
+
+
+
 
 </body>
 

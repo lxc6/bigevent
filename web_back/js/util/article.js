@@ -15,12 +15,16 @@ var article = {
             'id': id
         })
     },
-    // add: function (name, slug) {
-    //     return $.post(APILIST.category_add, {
-    //         'name': name,
-    //         'slug': slug
-    //     })
-    // },
+    add: function (fd) {
+        return $.ajax({
+            url: APILIST.article_add,
+            type: 'post',
+            data: fd,
+            processData: false, //不允许处理数据
+            contentType: false, //不需要设置请求头
+
+        })
+    },
 
     // edit: function (id, name, slug) {
     //     return $.post(APILIST.category_edit, {
