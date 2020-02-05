@@ -23,24 +23,24 @@
             文章编辑
         </div>
         <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
+            <form class="form-horizontal article_form" id="form">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="title" value="文章标题文字">
+                        <input type="text" class="form-control" name="title" id="title" value="文章标题文字">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
                         <img src="images/pic06.jpg" class="article_cover" id="cover">
-                        <input type="file" id="exampleInputFile">
+                        <input type="file" id="exampleInputFile" name="cover">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control" id="type">
+                        <select class="form-control" id="type" name="type">
                             <!-- <option>类别一</option>
                             <option>类别二</option>
                             <option>类别三</option>
@@ -54,7 +54,7 @@
                     <div class="col-sm-4">
 
                         <div class="input-group">
-                            <input type="text" class="form-control" value="2019-05-17" id="date">
+                            <input type="text" class="form-control" value="2019-05-17" id="date" name="date">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" id="content">文章内容：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label" id="content" name="content">文章内容：</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="rich_content" name="content" placeholder="文章内容"
                             value="文章内容">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button" class="btn btn-success">修改</button>
+                        <button type="button" class="btn btn-success" id="saveBtn">修改</button>
                     </div>
                 </div>
             </form>
@@ -97,8 +97,8 @@
         // 获取id值
         // var id = idStr.substr(4)
         var id = window.location.search.substr(4)
-
-
+        // 3. 实现保存编辑
+        // 封装
         function getAndShow(id) {
             article.getId(id).then(function (res) {
                 console.log(res);
@@ -120,8 +120,6 @@
             })
         }
 
-        getAndShowCategory();
-        // 3. 实现保存编辑
         function getAndShowCategory() {
             category.get().then(function (res) {
                 console.log(res);
@@ -139,6 +137,23 @@
 
             })
         }
+        getAndShowCategory();
+        // 添加事件 获取表单数据 保存
+        $('#saveBtn').click(function () {
+            // 获取数据
+            var fd = new FormData(document.getElementById('form'))
+            // 添加id
+            fd.append('id', id)
+            // 内容 set 更新表单富文本content
+            fd.set('content', tinymce.activeEditor.getContent());
+            article.edit(fd).then(function (res) {
+                if (res.code === 200) {
+                    alert('修改成功')
+                } else {
+                    alert(res.msg)
+                }
+            })
+        })
     </script>
 </body>
 

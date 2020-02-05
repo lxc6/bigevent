@@ -28,4 +28,7 @@ var APILIST = {
     article_del: BASEURL + '/admin/article_delete',
     // 添加
     article_add: BASEURL + '/admin/article_publish',
+    // 编辑
+    article_edit: BASEURL + '/admin/article_edit',
+
 }
