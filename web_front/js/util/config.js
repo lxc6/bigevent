@@ -14,6 +14,9 @@ var APILIST = {
     // 文章操作接口
     // 获取
     article_get: BASEURL + '/admin/search',
+    // 热门排行
+    article_rank: BASEURL + '/rank',
+
 
 
 }
