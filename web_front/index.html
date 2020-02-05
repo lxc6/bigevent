@@ -181,6 +181,7 @@
     <!-- 1.文章类型模板 -->
     <script id="tmp_cate" type="text/html">
         {{each data item}}
+        <!-- -------------------跳转对应id -->
         <li><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
         {{/each}}
     </script>
@@ -261,7 +262,12 @@
             } else {
                 alert(res.msg)
             }
-        })
+        });
+        // 5.最新评论
+        // article.comment().then(function (res) {
+        //     console.log(res);
+
+        // })
     </script>
 
 </body>

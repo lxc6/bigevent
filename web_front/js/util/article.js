@@ -1,6 +1,12 @@
 // 把所有文章分类的操作写在此处
 // 类别管理
 var article = {
+    show: function (type) {
+
+        return $.get(APILIST.article_get, {
+            'type': type
+        })
+    },
     // 获取主页焦点图 
     getFocusFive: function () {
         // 只要五条数据 只获取5条即可
@@ -17,4 +23,9 @@ var article = {
     latest: function () {
         return $.get(APILIST.article_latest)
     },
+    // 最新评论
+    // comment: function () {
+    //     return $.get(APILIST.article_comment)
+    // },
+
 }
