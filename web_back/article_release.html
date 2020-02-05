@@ -116,12 +116,18 @@
             //获取富文本编辑器中的内容  name -- content
             fd.set('content', tinyMCE.activeEditor.getContent())
             article.add(fd).then(function (res) {
-                alert('发布成功')
-                // reset是 表单（dom对象）的方法
-                // 用来重置
-                $('#myForm')[0].reset();
-                console.log(res);
+                if (res.code === 201) {
+                    alert('发布成功')
+                    // reset是 表单（dom对象）的方法
+                    // 用来重置
+                    $('#myForm')[0].reset();
+                    // 重置封面
+                    $('#imgPreview').attr('src', '../web_back/images/cover_de.png')
+                    console.log(res);
 
+                } else {
+                    alert(res.msg)
+                }
             })
         });
         // 2.获取文章类别并显示于下拉列表

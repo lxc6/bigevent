@@ -10,6 +10,13 @@ var article = {
 
         })
     },
+    // 根据id获取详情
+    getId: function (id) {
+        return $.get(APILIST.article_get, {
+            'id': id
+
+        })
+    },
     del: function (id) {
         return $.get(APILIST.article_del, {
             'id': id
