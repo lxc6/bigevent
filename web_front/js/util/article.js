@@ -11,13 +11,10 @@ var article = {
     // 热门排行
     rank: function () {
         return $.get(APILIST.article_rank)
-    }
-    // 根据id获取详情
-    // getId: function (id) {
-    //     return $.get(APILIST.article_get, {
-    //         'id': id
+    },
 
-    //     })
-    // }
-
+    // 最新资讯
+    latest: function () {
+        return $.get(APILIST.article_latest)
+    },
 }

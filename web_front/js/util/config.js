@@ -16,6 +16,8 @@ var APILIST = {
     article_get: BASEURL + '/admin/search',
     // 热门排行
     article_rank: BASEURL + '/rank',
+    // 最新资讯
+    article_latest: BASEURL + '/lastest',
 
 
 
