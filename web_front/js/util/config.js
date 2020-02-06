@@ -21,7 +21,8 @@ var APILIST = {
     // 最新评论  接口有问题 做不了
     article_comment: BASEURL + '/get_latest_comment',
 
-    // -----文章列表
+    // -----文章
+    article_detail: BASEURL + '/article',
 
 
 }

@@ -30,5 +30,11 @@ var article = {
     // comment: function () {
     //     return $.get(APILIST.article_comment)
     // },
+    // 文章详情
+    detail: function (id) {
+        return $.get(APILIST.article_detail, {
+            'id': id
+        })
+    }
 
 }
