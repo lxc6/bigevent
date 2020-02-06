@@ -52,7 +52,7 @@
     <div class="main_con clearfix">
         <div class="left_con setfr">
             <div class="list_title">
-                <h3>科 技</h3>
+                <h3 id="cateName">科 技</h3>
             </div>
             <div id="list">
                 <!-- <div class="common_news_list">
@@ -212,12 +212,21 @@
             $('#cate').html(htmlStr);
             // 2.显示下拉  保留小三角 向后添加
             $('#select').append(htmlStr)
+
+            // 4.通过数组遍历匹配 获取id
+            res.data.forEach(function (item) {
+                if (item.id == id) {
+                    $('#cateName').html(item.name)
+                }
+            })
+
+
         });
         // 2. 显示分类内容--- type 与当前id对应
         var curPage = 1; //当前第几页的数据
         function getAndShow() {
             article.show(id, curPage).then(function (res) {
-                console.log(res);
+                // console.log(res);
                 // res.pages 总页数
                 // 数据渲染
                 if (res.code === 200) {
