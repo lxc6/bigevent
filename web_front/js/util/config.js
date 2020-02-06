@@ -22,7 +22,10 @@ var APILIST = {
     article_comment: BASEURL + '/get_latest_comment',
 
     // -----文章
+    // 详情
     article_detail: BASEURL + '/article',
-
+    // 评论
+    comment_add: BASEURL + '/post_comment',
+    comment_get: BASEURL + '/get_comments',
 
 }
