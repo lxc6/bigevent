@@ -1,10 +1,11 @@
 // 把所有文章分类的操作写在此处
 // 类别管理
 var article = {
-    show: function (type) {
-
+    // 获取文章的列表数据
+    show: function (type, page) {
         return $.get(APILIST.article_get, {
-            'type': type
+            'type': type, //编号
+            'page': page //当前第几页
         })
     },
     // 获取主页焦点图 
