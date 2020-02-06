@@ -15,9 +15,11 @@ var article = {
             'perpage': 5,
         })
     },
-    // 热门排行
-    rank: function () {
-        return $.get(APILIST.article_rank)
+    // 热门排行 type类别编号 
+    rank: function (type) {
+        return $.get(APILIST.article_rank, {
+            'type': type
+        })
     },
 
     // 最新资讯

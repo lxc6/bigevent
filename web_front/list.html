@@ -78,14 +78,14 @@
         <div class="right_con setfl">
             <div class="common_wrap">
                 <h3><i class="fa fa-bar-chart"></i> 一周热门排行</h3>
-                <ul class="content_list">
-                    <li><span class="first">1</span><a href="#">神奇的水滴摄影，泡泡中的世界泡泡中的世界</a></li>
+                <ul class="content_list" id="rank">
+                    <!-- <li><span class="first">1</span><a href="#">神奇的水滴摄影，泡泡中的世界泡泡中的世界</a></li>
                     <li><span class="second">2</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
                     <li><span class="third">3</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
                     <li><span>4</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
                     <li><span>5</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
                     <li><span>6</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><span>7</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
+                    <li><span>7</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li> -->
                 </ul>
             </div>
             <div class="common_wrap">
@@ -185,6 +185,20 @@
         </div>
         {{/each}}
     </script>
+    <!-- 3.热门排行 -->
+    <script id="tmp_rank" type="text/html">
+        {{each data item index}}
+        {{if index == 0}}
+        <li><span class="first">{{index+1}}</span><a href="#">{{item.title}}</a></li>
+        {{else if index == 1}}
+        <li><span class="second">{{index+1}}</span><a href="#">{{item.title}}</a></li>
+        {{else if index == 2}}
+        <li><span class="third">{{index+1}}</span><a href="#">{{item.title}}</a></li>
+        {{else}}
+        <li><span>{{index+1}}</span><a href="#">{{item.title}}</a></li>
+        {{/if}}
+        {{/each}}
+    </script>
     <script>
         // 1.从地址兰获取id  window.location 选中高亮
         var id = window.location.search.substr(4);
@@ -237,7 +251,18 @@
                 }
             });
         }
-        getAndShow()
+        getAndShow();
+        // 3.热门排行 type 对应，类别id
+        article.rank(id).then(function (res) {
+            console.log(res);
+            if (res.code === 200) {
+                var htmlStr = template('tmp_rank', res)
+                $('#rank').html(htmlStr)
+            } else {
+                alert(res.msg)
+            }
+
+        });
     </script>
 
 </body>
