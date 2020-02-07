@@ -190,12 +190,12 @@
     </script>
     <script>
         // 1.从地址兰获取id  window.location 选中高亮
-        var id = window.location.search.substr(4);
+        let id = window.location.search.substr(4);
         // console.log(id);
         category.get().then(function (res) {
             res.curId = id
             // console.log(res);
-            var htmlStr = template('tmp_cate', res)
+            let htmlStr = template('tmp_cate', res)
             // console.log(htmlStr);
             // 1.显示  替换
             $('#cate').html(htmlStr);
@@ -212,14 +212,14 @@
 
         });
         // 2. 显示分类内容--- type 与当前id对应
-        var curPage = 1; //当前第几页的数据
+        let curPage = 1; //当前第几页的数据
         function getAndShow() {
             article.show(id, curPage).then(function (res) {
                 // console.log(res);
                 // res.pages 总页数
                 // 数据渲染
                 if (res.code === 200) {
-                    var htmlStr = template('tmp_list', res)
+                    let htmlStr = template('tmp_list', res)
                     $('#list').html(htmlStr)
 
                     // --------渲染完毕调用懒加载
@@ -257,7 +257,7 @@
         article.rank(id).then(function (res) {
             console.log(res);
             if (res.code === 200) {
-                var htmlStr = template('tmp_rank', res)
+                let htmlStr = template('tmp_rank', res)
                 $('#rank').html(htmlStr)
             } else {
                 alert(res.msg)

@@ -110,7 +110,7 @@
         $('#btnAdd').click(function () {
             // 获取表单中用户填入的信息    通过new FormData快速获取户填入的信息 
             // 必须有name属性   ， 并且要与接口中的参数一致
-            var fd = new FormData(document.getElementById('myForm'))
+            let fd = new FormData(document.getElementById('myForm'))
             // 手动添加一个参数  （form中没有的）需手动添加
             fd.append('state', '已发布')
             //获取富文本编辑器中的内容  name -- content
@@ -135,7 +135,7 @@
             console.log(res);
             if (res.code === 200) {
                 // 渲染
-                var htmlStr = template('tmp_select', res);
+                let htmlStr = template('tmp_select', res);
                 $('#selCategory').html(htmlStr)
             } else {
                 alert(res.msg)
@@ -146,12 +146,12 @@
         $('#cover').change(function () {
             // console.log(this.files)//所有文件集合
             // console.log(this.files[0])//选中第一个文件
-            var curFile = this.files[0];
+            let curFile = this.files[0];
             // URL.createObjectURL(文件对象)
             // 一个方法 创建临时地址
             // 判空
             if (curFile) {
-                var curFileUrl = URL.createObjectURL(curFile);
+                let curFileUrl = URL.createObjectURL(curFile);
                 $('#imgPreview').attr('src', curFileUrl)
 
             } else {

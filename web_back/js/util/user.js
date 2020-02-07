@@ -1,5 +1,5 @@
 // 引入模块  集中管理
-var user = {
+let user = {
     // 用户登录  优化 将dom操作放到html页面 js中 只放ajax功能  即将then()取出  别忘了return
     login: function (name, password) {
         // 语义化

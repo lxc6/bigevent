@@ -1,6 +1,6 @@
 // 把所有文章分类的操作写在此处
 // 类别管理
-var category = {
+let category = {
     get: function () {
         return $.get(APILIST.category_get)
     },

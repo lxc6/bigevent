@@ -127,10 +127,10 @@
         {{/each}}
     </script>
     <script>
-        var curPage = 1; //全局变量查询当前文章的页数
-        var curType = ''; //全局变量查询当前文章的类型编号
-        var curStatus = ''; //全局变量查询当前文章的状态
-        var curTotalPage; //记录上一次获得的总页数
+        let curPage = 1; //全局变量查询当前文章的页数
+        let curType = ''; //全局变量查询当前文章的类型编号
+        let curStatus = ''; //全局变量查询当前文章的状态
+        let curTotalPage; //记录上一次获得的总页数
 
 
         //文章列表            category译 类别
@@ -138,7 +138,7 @@
         // 调用接口，获取数据，用art template渲染到页面上
         category.get().then(function (res) {
             //          art template  渲染
-            var htmlStr = template('tmp_category', res)
+            let htmlStr = template('tmp_category', res)
             $('#selCategory').html(htmlStr)
         });
 
@@ -148,7 +148,7 @@
             article.get(curPage, curType, curStatus).then(function (res) {
                 if (res.code === 200) {
                     // (1)art渲染
-                    var htmlStr = template('tmp_list', res)
+                    let htmlStr = template('tmp_list', res)
                     $('#tbody').html(htmlStr)
                     // (2)设置分页插件
                     // 分页插件
@@ -199,7 +199,7 @@
         // 4.删除 事件委托 
         $('#tbody').on('click', '.del', function () {
             // if (confirm('你去定要删除吗！') === true) {
-            //     var id = $(this).attr('data-id');
+            //     let id = $(this).attr('data-id');
             //     article.del(id).then(function (res) {
             //         if (res.code === 200) {
             //             getAndShow();
@@ -213,7 +213,7 @@
             if (!confirm('你去定要删除吗！')) {
                 return;
             }
-            var id = $(this).attr('data-id');
+            let id = $(this).attr('data-id');
             article.del(id).then(function (res) {
                 if (res.code === 200) {
                     getAndShow();

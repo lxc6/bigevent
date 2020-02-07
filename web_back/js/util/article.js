@@ -1,6 +1,6 @@
 // 把所有文章分类的操作写在此处
 // 类别管理
-var article = {
+let article = {
     // 传参 page  获取页数
     get: function (page, type, status) {
         return $.get(APILIST.article_get, {

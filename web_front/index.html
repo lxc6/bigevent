@@ -205,7 +205,7 @@
     <script>
         // 1.获取文章类型并显示
         category.get().then(function (res) {
-            var htmlStr = template('tmp_cate', res)
+            let htmlStr = template('tmp_cate', res)
             // console.log(htmlStr);
             // 1.显示  替换
             $('#cate').html(htmlStr);
@@ -214,7 +214,7 @@
         });
         // 2.显示焦点图
         article.getFocusFive().then(function (res) {
-            var htmlStr = template('tmp_focus', res)
+            let htmlStr = template('tmp_focus', res)
             // console.log(res);
 
             // console.log(htmlStr);
@@ -223,7 +223,7 @@
         // 3.文章热点排行
         article.rank().then(function (res) {
             // console.log(res);
-            var htmlStr = template('tmp_rank', res)
+            let htmlStr = template('tmp_rank', res)
             $('#rank').html(htmlStr)
 
         });
@@ -231,7 +231,7 @@
         article.latest().then(function (res) {
             console.log(res);
             if (res.code === 200) {
-                var htmlStr = template('tmp_latest', res)
+                let htmlStr = template('tmp_latest', res)
                 $('#new_list').html(htmlStr)
             } else {
                 alert(res.msg)

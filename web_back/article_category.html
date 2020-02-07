@@ -156,7 +156,7 @@
         // 3.发送请求 4.接收请求结果后续dom 
 
         // 1.查 和 显示
-        var GetAndShow = function () {
+        let GetAndShow = function () {
             category.get().then(function (res) {
                 // 固定写法-------------模板id ,模板数据对象
                 var htmlStr = template('tmp_cate', res)
@@ -170,8 +170,8 @@
         // 2.新增  弹出模态框 收集信息 判空  发送请求  后续
         $('#model_add').click(function () {
             // 获取信息
-            var name = $('#name').val().trim()
-            var slug = $('#slug').val().trim()
+            let name = $('#name').val().trim()
+            let slug = $('#slug').val().trim()
             if (name.length === 0 || slug.length === 0) {
                 alert('内容不能为空！')
                 return
@@ -200,7 +200,7 @@
         // 3.删除     事件委托  点击事件 拿到id  请求接口  根据响应后续
         $('#tbody').on('click', '.del', function () {
             // 生成按钮时  设置自定义属性   获取自定义属性
-            var id = $(this).attr('data_id')
+            let id = $(this).attr('data_id')
             // 请求接口
             category.del(id).then(function (res) {
                 if (res.code === 200) {
@@ -215,9 +215,9 @@
         $('#tbody').on('click', '.edit', function () {
             // 编辑与删除类似需要用到自定义属性 添加自定义属性
             // 获取值
-            var id = $(this).attr('data_id')
-            var name = $(this).attr('data_name')
-            var slug = $(this).attr('data_slug')
+            let id = $(this).attr('data_id')
+            let name = $(this).attr('data_name')
+            let slug = $(this).attr('data_slug')
             // 给模态框设置
             $('#edit_id').val(id)
             $('#edit_name').val(name)
@@ -227,9 +227,9 @@
         });
         // 点击实现保存修改
         $('#model_slave').click(function () {
-            var new_id = $('#edit_id').val().trim()
-            var new_name = $('#edit_name').val().trim()
-            var new_slug = $('#edit_slug').val().trim()
+            let new_id = $('#edit_id').val().trim()
+            let new_name = $('#edit_name').val().trim()
+            let new_slug = $('#edit_slug').val().trim()
             if (new_name.length === 0 || new_slug.length === 0) {
                 alert('内容不能为空！')
                 return

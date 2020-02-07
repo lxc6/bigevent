@@ -96,7 +96,7 @@
         // var idStr = window.location.search
         // 获取id值
         // var id = idStr.substr(4)
-        var id = window.location.search.substr(4)
+        let id = window.location.search.substr(4)
         // 3. 实现保存编辑
         // 封装
         function getAndShow(id) {
@@ -125,7 +125,7 @@
                 console.log(res);
                 if (res.code === 200) {
 
-                    var htmlStr = template('cate', res)
+                    let htmlStr = template('cate', res)
                     $('#type').html(htmlStr)
 
                     // 2. 根据id取回这篇文章信息并显示在页面上
@@ -141,7 +141,7 @@
         // 添加事件 获取表单数据 保存
         $('#saveBtn').click(function () {
             // 获取数据
-            var fd = new FormData(document.getElementById('form'))
+            let fd = new FormData(document.getElementById('form'))
             // 添加id
             fd.append('id', id)
             // 内容 set 更新表单富文本content

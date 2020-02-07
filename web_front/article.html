@@ -233,11 +233,11 @@
 
 
         // 1.获取当前页面id
-        var id = location.search.substr(4);
+        let id = location.search.substr(4);
         // 2.获取数据
         article.detail(id).then(function (res) {
             if (res.code === 200) {
-                var t = res.data;
+                let t = res.data;
                 $('#title').html(t.title);
                 $('#author').html(t.author);
                 $('#date').html(t.date);
@@ -269,8 +269,8 @@
         getAndShow();
         $('#btn').click(function () {
             // 收集信息
-            var name = $('#comment_name').val().trim();
-            var cont = $('#comment_content').val().trim();
+            let name = $('#comment_name').val().trim();
+            let cont = $('#comment_content').val().trim();
             if (name.length == 0 || cont.length == 0) {
                 // 优化弹出框
                 bootbox.alert({
@@ -306,7 +306,7 @@
                         item.relativeTime = dayjs(item.dt).fromNow();
                     })
 
-                    var htmlStr = template('tmp', res)
+                    let htmlStr = template('tmp', res)
                     $('#comment_count').html(htmlStr)
                 } else {
                     alert(res.msg)

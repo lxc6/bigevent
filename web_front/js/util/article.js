@@ -1,6 +1,6 @@
 // 把所有文章分类的操作写在此处
 // 类别管理
-var article = {
+let article = {
     // 获取文章的列表数据
     show: function (type, page) {
         return $.get(APILIST.article_get, {
