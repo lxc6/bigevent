@@ -146,20 +146,25 @@
         // 调接口  获取数据 arttemplate 渲染
         function getAndShow() {
             article.get(curPage, curType, curStatus).then(function (res) {
-                if (res.code === 200) {
+                let {
+                    code,
+                    msg,
+                    totalPage
+                } = res
+                if (code === 200) {
                     // (1)art渲染
                     let htmlStr = template('tmp_list', res)
                     $('#tbody').html(htmlStr)
                     // (2)设置分页插件
                     // 分页插件
                     // 用于筛选时 页码动态不确定  当前页数与前一次页数不同时 destroy摧毁原有页码 后重建
-                    if (curTotalPage !== res.totalPage) {
+                    if (curTotalPage !== totalPage) {
                         $('#pagination').twbsPagination('destroy') //固定写法
-                        curTotalPage = res.totalPage
+                        curTotalPage = totalPage
                     }
 
                     $('#pagination').twbsPagination({
-                        totalPages: res.totalPage, //总页数
+                        totalPages: totalPage, //总页数
                         visiblePages: 6,
                         first: '首页',
                         last: '尾页',
@@ -175,7 +180,7 @@
                     });
 
                 } else {
-                    alert(res.msg)
+                    alert(msg)
                 }
 
             });
@@ -201,7 +206,7 @@
             // if (confirm('你去定要删除吗！') === true) {
             //     let id = $(this).attr('data-id');
             //     article.del(id).then(function (res) {
-            //         if (res.code === 200) {
+            //         if (code === 200) {
             //             getAndShow();
             //         } else {
             //             alert(res.msg);
@@ -215,10 +220,15 @@
             }
             let id = $(this).attr('data-id');
             article.del(id).then(function (res) {
-                if (res.code === 200) {
+                // ES6
+                let {
+                    code,
+                    msg,
+                } = res
+                if (code === 200) {
                     getAndShow();
                 } else {
-                    alert(res.msg);
+                    alert(msg);
                 }
 
             })

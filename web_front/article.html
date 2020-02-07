@@ -89,39 +89,19 @@
                     <input id="btn" type="button" name="" value="评 论" class="comment_sub"></div>
             </form>
 
-            <div class="comment_count" id="comment_count">
+            <div class="comment_count" id="comment_amount">
                 4条评论
             </div>
 
-            <div class="comment_list_con">
-                <div class="comment_detail_list">
+            <div class="comment_list_con" id="comment_count">
+                <!-- <div class="comment_detail_list">
                     <div class="person_pic fl">乔</div>
                     <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
                     <div class="comment_text fl">
                         遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
                     </div>
-                </div>
-                <div class="comment_detail_list">
-                    <div class="person_pic fl">段</div>
-                    <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
-                    <div class="comment_text fl">
-                        遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
-                    </div>
-                </div>
-                <div class="comment_detail_list">
-                    <div class="person_pic fl">虚</div>
-                    <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
-                    <div class="comment_text fl">
-                        遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
-                    </div>
-                </div>
-                <div class="comment_detail_list">
-                    <div class="person_pic fl">王</div>
-                    <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
-                    <div class="comment_text fl">
-                        遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
-                    </div>
-                </div>
+                </div> -->
+
             </div>
         </div>
         <div class="right_con setfl">
@@ -236,30 +216,47 @@
         let id = location.search.substr(4);
         // 2.获取数据
         article.detail(id).then(function (res) {
+            console.log(res);
+            // ES6
+            let {
+                code,
+                msg,
+                data: {
+                    title,
+                    author,
+                    date,
+                    content,
+                    prev,
+                    next,
+                    read,
+                    comment,
+                    type_name
+                }
+            } = res
             if (res.code === 200) {
-                let t = res.data;
-                $('#title').html(t.title);
-                $('#author').html(t.author);
-                $('#date').html(t.date);
-                $('#content').html(t.content);
+                // let = res.data;
+                $('#title').html(title);
+                $('#author').html(author);
+                $('#date').html(date);
+                $('#content').html(content);
                 // 上下页导航 对应跳转id
-                if (t.prev) {
-                    $('#prev').attr('href', './article.html?id=' + t.prev.id)
-                    $('#prev').text(t.prev.title);
+                if (prev) {
+                    $('#prev').attr('href', './article.html?id=' + prev.id)
+                    $('#prev').text(prev.title);
                 } else {
                     alert('前面没有了') //注意没有上一篇的情况下
                 }
-                if (t.next) {
-                    $('#next').attr('href', './article.html?id=' + t.next.id)
-                    $('#next').text(t.next.title);
+                if (next) {
+                    $('#next').attr('href', './article.html?id=' + next.id)
+                    $('#next').text(next.title);
                 } else {
                     alert('后面没有了')
                 }
 
 
-                $('#read').html(t.read);
-                $('#comment').html(t.comment);
-                $('.type_name').html(t.type_name);
+                $('#read').html(read);
+                $('#comment').html(comment);
+                $('.type_name').html(type_name);
             } else {
                 alert(res.msg)
             }
@@ -277,39 +274,54 @@
                     message: "内容不能为空！",
                     className: 'rubberBand animated'
                 });
+
                 // alert('内容不能为空')
                 return
             }
 
             // 4.添加评论并显示
             comment.add(name, cont, id).then(function (res) {
-                if (res.code === 200) {
+                // ES6
+                let {
+                    code,
+                    msg,
+                } = res
+                if (code === 200) {
                     // 清空输入
                     $('#comment_name').val('')
                     $('#comment_content').val('')
                     // 渲染于评论区
                     getAndShow()
                 } else {
-                    alert(res.msg)
+                    alert(msg)
                 }
             })
         });
 
         function getAndShow() {
             comment.get(id).then(function (res) {
-                if (res.code === 200) {
-
+                // ES6
+                let {
+                    code,
+                    msg,
+                    data
+                } = res
+                if (code === 200) {
                     // 对每一条留言的的时间戳进行转化
                     // data数据为数组 为其每一项添加属性
-                    res.data.forEach(function (item) {
+                    data.forEach(function (item) {
                         // 为每一项添加新属性 值为时间戳转化的值
                         item.relativeTime = dayjs(item.dt).fromNow();
                     })
 
                     let htmlStr = template('tmp', res)
-                    $('#comment_count').html(htmlStr)
+                    console.log(htmlStr);
+                    // 评论取反？？？？
+                    // 先清空评论区再向前添加 ？？？不行  返回的是字符串默认最新的在最后
+                    $('#comment_count').empty();
+                    $('#comment_count').append(htmlStr)
                 } else {
-                    alert(res.msg)
+                    alert(msg)
                 }
 
             })

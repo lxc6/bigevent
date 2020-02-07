@@ -193,17 +193,21 @@
         let id = window.location.search.substr(4);
         // console.log(id);
         category.get().then(function (res) {
+            // ES6
+            let {
+                data
+                // curId: id 不能添加属性 这只是解构赋值方法 是后边的值赋值给前边 不是从前边向后添加 
+            } = res
             res.curId = id
-            // console.log(res);
+
             let htmlStr = template('tmp_cate', res)
-            // console.log(htmlStr);
             // 1.显示  替换
             $('#cate').html(htmlStr);
             // 2.显示下拉  保留小三角 向后添加
             $('#select').append(htmlStr)
 
             // 4.通过数组遍历匹配 获取id
-            res.data.forEach(function (item) {
+            data.forEach(function (item) {
                 if (item.id == id) {
                     $('#cateName').html(item.name)
                 }
@@ -215,10 +219,16 @@
         let curPage = 1; //当前第几页的数据
         function getAndShow() {
             article.show(id, curPage).then(function (res) {
-                // console.log(res);
+
                 // res.pages 总页数
                 // 数据渲染
-                if (res.code === 200) {
+                // ES6
+                let {
+                    code,
+                    msg,
+                    pages
+                } = res
+                if (code === 200) {
                     let htmlStr = template('tmp_list', res)
                     $('#list').html(htmlStr)
 
@@ -226,14 +236,14 @@
                     // lazyload(); //引入jq用$('图片').lazyload();方法
                     $('.img').lazyload();
                     // 优化分页条
-                    if (res.pages <= 1) {
+                    if (pages <= 1) {
                         return
                     }
                     // 3.分页
                     // 分页基础代码
                     $('#pagination-demo').twbsPagination({
                         initiateStartPageClick: false, // 初始时，不要去点击起始页
-                        totalPages: res.pages, // 总页数
+                        totalPages: pages, // 总页数
                         visiblePages: 6, // 可见页数 最多可显示按钮数
                         first: '首页',
                         prev: '上一页',
@@ -248,19 +258,23 @@
                         }
                     });
                 } else {
-                    alert(res.msg)
+                    alert(msg)
                 }
             });
         }
         getAndShow();
         // 3.热门排行 type 对应，类别id
         article.rank(id).then(function (res) {
-            console.log(res);
-            if (res.code === 200) {
+            // ES6
+            let {
+                code,
+                msg,
+            } = res
+            if (code === 200) {
                 let htmlStr = template('tmp_rank', res)
                 $('#rank').html(htmlStr)
             } else {
-                alert(res.msg)
+                alert(msg)
             }
 
         });

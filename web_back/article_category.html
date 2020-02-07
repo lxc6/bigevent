@@ -178,7 +178,12 @@
             }
             category.add(name, slug).then(function (res) {
                 // 判断成功失败
-                if (res.code === 200) {
+                // ES6
+                let {
+                    code,
+                    msg
+                } = res
+                if (code === 200) {
                     // 再执行一遍1 所以封装1  
                     GetAndShow()
                     // 清空
@@ -187,7 +192,7 @@
                     // 隐藏模态框
                     $('#addModal').modal('hide')
                 } else {
-                    alert(res.msg);
+                    alert(msg);
                 }
             })
         });
@@ -203,10 +208,19 @@
             let id = $(this).attr('data_id')
             // 请求接口
             category.del(id).then(function (res) {
-                if (res.code === 200) {
+                // ES6
+                let {
+                    code,
+                    msg
+                } = res
+                // 代码原则 ----------尽早结束--------+500￥
+                if (!confirm('你去定要删除吗！')) {
+                    return;
+                }
+                if (code === 200) {
                     GetAndShow();
                 } else {
-                    alert(res.msg);
+                    alert(msg);
                 }
             })
         });
@@ -237,11 +251,16 @@
             // 发送请求
             // 接口参数有3个  id 需在html中添加一个隐藏文本框
             category.edit(new_id, new_name, new_slug).then(function (res) {
-                if (res.code === 200) {
+                // ES6
+                let {
+                    code,
+                    msg
+                } = res
+                if (code === 200) {
                     GetAndShow()
                     $('#editModal').modal('hide')
                 } else {
-                    alert(res.msg)
+                    alert(msg)
                 }
             })
         });

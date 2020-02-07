@@ -97,24 +97,48 @@
         // 获取id值
         // var id = idStr.substr(4)
         let id = window.location.search.substr(4)
+        // 直接打开此页面时
+        function cur() {
+            if (id.length == 0) {
+                // 用来重置
+                $('#form')[0].reset();
+                // 重置封面
+                $('#cover').attr('src', './images/cover_de.png')
+                return
+            }
+        }
+        cur();
         // 3. 实现保存编辑
         // 封装
         function getAndShow(id) {
             article.getId(id).then(function (res) {
-                console.log(res);
-                if (res.code === 200) {
+                // ES6
+                let {
+                    code,
+                    msg,
+                    data
+                } = res
+                console.log(data);
+                // let [{
+                //     title,
+                //     cover,
+                //     date,
+                //     type,
+                //     content
+                // }] = data    无法确定下标
+                if (code === 200) {
                     // 把数据填入表单 显示
-                    $('#title').val(res.data.title)
-                    $('#cover').attr('src', res.data.cover)
-                    $('#date').val(res.data.date)
+                    $('#title').val(data.title)
+                    $('#cover').attr('src', data.cover)
+                    $('#date').val(data.date)
                     //类别
-                    $('#type').val(res.data.type)
+                    $('#type').val(data.type)
                     // 富文本编辑器  最好设置延时
                     setTimeout(function () {
-                        tinymce.activeEditor.setContent(res.data.content)
+                        tinymce.activeEditor.setContent(data.content)
                     }, 500)
                 } else {
-                    alert(res.msg)
+                    alert(msg)
                 }
 
             })
@@ -122,16 +146,19 @@
 
         function getAndShowCategory() {
             category.get().then(function (res) {
-                console.log(res);
-                if (res.code === 200) {
-
+                // console.log(res);
+                let {
+                    code,
+                    msg
+                } = res
+                if (code === 200) {
                     let htmlStr = template('cate', res)
                     $('#type').html(htmlStr)
 
                     // 2. 根据id取回这篇文章信息并显示在页面上
                     getAndShow(id);
                 } else {
-                    alert(res.msg)
+                    alert(msg)
                 }
 
 
@@ -147,10 +174,14 @@
             // 内容 set 更新表单富文本content
             fd.set('content', tinymce.activeEditor.getContent());
             article.edit(fd).then(function (res) {
-                if (res.code === 200) {
+                let {
+                    code,
+                    msg
+                } = res
+                if (code === 200) {
                     alert('修改成功')
                 } else {
-                    alert(res.msg)
+                    alert(msg)
                 }
             })
         });

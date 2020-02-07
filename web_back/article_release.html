@@ -116,7 +116,12 @@
             //获取富文本编辑器中的内容  name -- content
             fd.set('content', tinyMCE.activeEditor.getContent())
             article.add(fd).then(function (res) {
-                if (res.code === 201) {
+                // ES6
+                let {
+                    code,
+                    msg,
+                } = res
+                if (code === 201) {
                     alert('发布成功')
                     // reset是 表单（dom对象）的方法
                     // 用来重置
@@ -126,19 +131,24 @@
                     console.log(res);
 
                 } else {
-                    alert(res.msg)
+                    alert(msg)
                 }
             })
         });
         // 2.获取文章类别并显示于下拉列表
         category.get().then(function (res) {
             console.log(res);
-            if (res.code === 200) {
+            // ES6
+            let {
+                code,
+                msg,
+            } = res
+            if (code === 200) {
                 // 渲染
                 let htmlStr = template('tmp_select', res);
                 $('#selCategory').html(htmlStr)
             } else {
-                alert(res.msg)
+                alert(msg)
             }
 
         });

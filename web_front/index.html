@@ -229,12 +229,17 @@
         });
         // 4.最新资讯
         article.latest().then(function (res) {
-            console.log(res);
-            if (res.code === 200) {
+            // ES6
+            let {
+                code,
+                msg,
+            } = res
+
+            if (code === 200) {
                 let htmlStr = template('tmp_latest', res)
                 $('#new_list').html(htmlStr)
             } else {
-                alert(res.msg)
+                alert(msg)
             }
         });
     </script>
