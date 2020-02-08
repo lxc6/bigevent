@@ -187,7 +187,6 @@
         // 1.获取文章类型并显示
         category.get().then(res => {
             let htmlStr = template('tmp_cate', res)
-            // console.log(htmlStr);
             // 1.显示  替换
             $('#cate').html(htmlStr);
             // 2.显示下拉  保留小三角 向后添加
@@ -206,9 +205,6 @@
         });
         // 4.最新资讯
         article.latest().then(res => {
-            console.log(res);
-
-            // ES6
             let {
                 code,
                 msg,

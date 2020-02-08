@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>文章列表</title>
+    <title>文章发布</title>
     <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/iconfont.css">
@@ -44,11 +44,7 @@
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
                         <select id="selCategory" name="type" class="form-control">
-                            <!-- <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option> -->
+                            分类下拉列表
                         </select>
                     </div>
                 </div>
@@ -70,7 +66,7 @@
                     <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" id="rich_content" name="content" placeholder="文章内容">
-                            tinyMCE.activeEditor.getContent()
+                            获取富文本数据：tinyMCE.activeEditor.getContent()
                             </textarea>
                     </div>
                 </div>
@@ -83,13 +79,6 @@
             </form>
         </div>
     </div>
-
-
-
-
-
-
-
 
     <!-- 配置模块 -->
     <script src="./js/util/config.js"></script>
@@ -108,6 +97,10 @@
     <script>
         // 1.添加
         $('#btnAdd').click(() => {
+            // 代码原则 ----------尽早结束
+            if (!confirm('你确定要发布吗！')) {
+                return;
+            }
             // 获取表单中用户填入的信息    通过new FormData快速获取户填入的信息 
             // 必须有name属性   ， 并且要与接口中的参数一致
             let fd = new FormData(document.getElementById('myForm'))
@@ -116,7 +109,6 @@
             //获取富文本编辑器中的内容  name -- content
             fd.set('content', tinyMCE.activeEditor.getContent())
             article.add(fd).then(res => {
-                // ES6
                 let {
                     code,
                     msg,
@@ -128,16 +120,14 @@
                     $('#myForm')[0].reset();
                     // 重置封面
                     $('#imgPreview').attr('src', '../web_back/images/cover_de.png')
-                    console.log(res);
-
                 } else {
                     alert(msg)
                 }
             })
         });
+
         // 2.获取文章类别并显示于下拉列表
         category.get().then(res => {
-            // ES6
             let {
                 code,
                 msg,
@@ -149,24 +139,22 @@
             } else {
                 alert(msg)
             }
-
         });
+
         // 3.文件预览
         $('#cover').change(function () {
             // console.log(this.files)//所有文件集合
             // console.log(this.files[0])//选中第一个文件
+            // URL.createObjectURL(文件对象)，一个方法 创建临时地址
+
             let curFile = this.files[0];
-            // URL.createObjectURL(文件对象)
-            // 一个方法 创建临时地址
             // 判空
             if (curFile) {
                 let curFileUrl = URL.createObjectURL(curFile);
                 $('#imgPreview').attr('src', curFileUrl)
-
             } else {
                 $('#imgPreview').attr('src', '../web_back/images/cover_de.png')
             }
-
 
         });
     </script>

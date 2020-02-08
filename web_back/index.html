@@ -164,7 +164,6 @@
 
         // 替换管理员信息
         user.getInfo().then(res => {
-            // ES6
             let {
                 code,
                 msg,
@@ -174,7 +173,6 @@
                 }
             } = res
             console.log(res);
-
             if (code === 200) {
                 $('#userName').text(nickname)
                 $('.userImg').attr('src', user_pic)

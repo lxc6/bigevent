@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>文章列表</title>
+    <title>文章编辑</title>
     <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/iconfont.css">
@@ -83,7 +83,7 @@
     <script src="./js/util/article.js"></script>
     <script src="./js/util/category.js"></script>
 
-    <!-- 模板 -->
+    <!-- 分类模板 -->
     <script id="cate" type="text/html">
         {{each data item}}
         <option value='{{item.id}}'>{{item.name}}</option>
@@ -93,10 +93,8 @@
         // 实现文章编辑
         // 1. 获取当前要编辑的文章id
         // window.location:是一个bom对象 存储url信息  通过search属性获取id的查询字符串
-        // var idStr = window.location.search
-        // 获取id值
-        // var id = idStr.substr(4)
         let id = window.location.search.substr(4)
+
         // 直接打开此页面时   需要从列表页跳转编辑才不会报错
         function cur() {
             if (id.length == 0) {
@@ -112,30 +110,17 @@
         // 封装
         function getAndShow(id) {
             article.getId(id).then(res => {
-                // ES6
                 let {
                     code,
                     msg,
-                    data
+                    data: {
+                        title,
+                        cover,
+                        date,
+                        type,
+                        content
+                    }
                 } = res
-                console.log(data);
-                // find方法  data不是数组无法使用  Array.from()只能转化伪数组
-                // let index = data.find((item, index) => {
-                //     if (item.id == id) {
-                //         return index
-                //     }
-                // });
-                // let index = res.data.findIndex(item => item.id == id);
-                // console.log(index);
-
-                let {
-                    title,
-                    cover,
-                    date,
-                    type,
-                    content
-                } = data
-
                 if (code === 200) {
                     // 把数据填入表单 显示
                     $('#title').val(title)
@@ -153,10 +138,12 @@
 
             })
         }
+        // 获取显示分类
+        getAndShowCategory();
 
         function getAndShowCategory() {
             category.get().then(res => {
-                // console.log(res);
+
                 let {
                     code,
                     msg
@@ -164,7 +151,6 @@
                 if (code === 200) {
                     let htmlStr = template('cate', res)
                     $('#type').html(htmlStr)
-
                     // 2. 根据id取回这篇文章信息并显示在页面上
                     getAndShow(id);
                 } else {
@@ -174,9 +160,12 @@
 
             })
         }
-        getAndShowCategory();
+
         // 添加事件 获取表单数据 保存
         $('#saveBtn').click(() => {
+            if (!confirm('你确定要修改吗！')) {
+                return;
+            }
             // 获取数据
             let fd = new FormData(document.getElementById('form'))
             // 添加id

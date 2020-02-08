@@ -90,7 +90,7 @@
             </form>
 
             <div class="comment_count" id="comment_amount">
-                4条评论
+                4条评论 可用data.length做
             </div>
 
             <div class="comment_list_con" id="comment_count">
@@ -216,8 +216,8 @@
         let id = location.search.substr(4);
         // 2.获取数据
         article.detail(id).then(res => {
+            console.log(res);
 
-            // ES6
             let {
                 code,
                 msg,
@@ -233,7 +233,7 @@
                     type_name
                 }
             } = res
-            if (res.code === 200) {
+            if (code === 200) {
                 // let = res.data;
                 $('#title').html(title);
                 $('#author').html(author);
@@ -245,13 +245,13 @@
                     $('#prev').text(prev.title);
                 } else {
                     alert('前面没有了') //注意没有上一篇的情况下
-                }
+                };
                 if (next) {
                     $('#next').attr('href', './article.html?id=' + next.id)
                     $('#next').text(next.title);
                 } else {
-                    alert('后面没有了')
-                }
+                    alert('后面没有了') //bug--有的页面跳转到此页面时会弹出
+                };
 
 
                 $('#read').html(read);
@@ -316,8 +316,8 @@
                     console.log(htmlStr);
                     // 评论取反？？？？
                     // 先清空评论区再向前添加 ？？？不行  返回的是字符串默认最新的在最后
-                    $('#comment_count').empty();
-                    $('#comment_count').append(htmlStr)
+                    // $('#comment_count').empty();
+                    $('#comment_count').html(htmlStr)
                 } else {
                     alert(msg)
                 }

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>文章列表</title>
+    <title>文章分类</title>
     <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/iconfont.css">
@@ -29,15 +29,7 @@
                     </tr>
                 </thead>
                 <tbody id="tbody">
-                    <!-- <tr>
-                        <td>爱旅行</td>
-                        <td>travel</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;4&quot;,&quot;slug&quot;:&quot;travel&quot;,&quot;name&quot;:&quot;爱旅行&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 4 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr> -->
+                    文章分类编辑
                 </tbody>
                 <tfoot>
                     <tr>
@@ -158,11 +150,9 @@
         // 1.查 和 显示
         let GetAndShow = () => {
             category.get().then(res => {
-                // 固定写法-------------模板id ,模板数据对象
-                var htmlStr = template('tmp_cate', res)
-                //将获得的模板字符添加到html中
+                // 模板数据对象
+                let htmlStr = template('tmp_cate', res)
                 $('tbody').html(htmlStr)
-                // console.log(htmlStr);
             });
         }
         GetAndShow();
@@ -177,14 +167,11 @@
                 return
             }
             category.add(name, slug).then(res => {
-                // 判断成功失败
-                // ES6
                 let {
                     code,
                     msg
                 } = res
                 if (code === 200) {
-                    // 再执行一遍1 所以封装1  
                     GetAndShow()
                     // 清空
                     $('#name').val('')
@@ -208,7 +195,6 @@
             let id = $(this).attr('data_id')
             // 请求接口
             category.del(id).then(res => {
-                // ES6
                 let {
                     code,
                     msg
@@ -244,6 +230,7 @@
             let new_id = $('#edit_id').val().trim()
             let new_name = $('#edit_name').val().trim()
             let new_slug = $('#edit_slug').val().trim()
+
             if (new_name.length === 0 || new_slug.length === 0) {
                 alert('内容不能为空！')
                 return
@@ -251,7 +238,6 @@
             // 发送请求
             // 接口参数有3个  id 需在html中添加一个隐藏文本框
             category.edit(new_id, new_name, new_slug).then(res => {
-                // ES6
                 let {
                     code,
                     msg
@@ -264,6 +250,7 @@
                 }
             })
         });
+        // 点击隐藏模态框
         $('#edit_off').click(() => {
             $('#editModal').modal('hide')
         });

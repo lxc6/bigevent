@@ -2,45 +2,34 @@
 // 类别管理
 let article = {
     // 传参 page  获取页数
-    get: function (page, type, status) {
-        return $.get(APILIST.article_get, {
-            'page': page,
-            'type': type,
-            'state': status,
+    get: (page, type, status) => $.get(APILIST.article_get, {
+        page,
+        type,
+        status,
 
-        })
-    },
+    }),
     // 根据id获取详情
-    getId: function (id) {
-        return $.get(APILIST.article_get, {
-            'id': id
+    getId: id => $.get(APILIST.article_get, {
+        id
 
-        })
-    },
-    del: function (id) {
-        return $.get(APILIST.article_del, {
-            'id': id
-        })
-    },
-    add: function (fd) {
-        return $.ajax({
-            url: APILIST.article_add,
-            type: 'post',
-            data: fd,
-            processData: false, //不允许处理数据
-            contentType: false, //不需要设置请求头
-
-        })
-    },
+    }),
+    del: id => $.get(APILIST.article_del, {
+        id
+    }),
+    add: fd => $.ajax({
+        url: APILIST.article_add,
+        type: 'post',
+        data: fd,
+        processData: false, //不允许处理数据
+        contentType: false, //不需要设置请求头
+    }),
     // 编辑
-    edit: function (fd) {
-        return $.ajax({
-            url: APILIST.article_edit,
-            type: 'post',
-            data: fd,
-            processData: false, //不允许处理数据
-            contentType: false, //不需要设置请求头
+    edit: fd => $.ajax({
+        url: APILIST.article_edit,
+        type: 'post',
+        data: fd,
+        processData: false, //不允许处理数据
+        contentType: false, //不需要设置请求头
 
-        })
-    },
+    }),
 }

@@ -191,38 +191,28 @@
     <script>
         // 1.从地址兰获取id  window.location 选中高亮
         let id = window.location.search.substr(4);
-        // console.log(id);
         category.get().then(res => {
-            // ES6
             let {
                 data
-                // curId: id 不能添加属性 这只是解构赋值方法 是后边的值赋值给前边 不是从前边向后添加 
-            } = res
-            res.curId = id
-
-            let htmlStr = template('tmp_cate', res)
+            } = res;
+            res.curId = id;
+            let htmlStr = template('tmp_cate', res);
             // 1.显示  替换
             $('#cate').html(htmlStr);
             // 2.显示下拉  保留小三角 向后添加
-            $('#select').append(htmlStr)
-
+            $('#select').append(htmlStr);
             // 4.通过数组遍历匹配 获取id
             data.forEach(item => {
                 if (item.id == id) {
                     $('#cateName').html(item.name)
                 }
             })
-
-
         });
         // 2. 显示分类内容--- type 与当前id对应
         let curPage = 1; //当前第几页的数据
         function getAndShow() {
             article.show(id, curPage).then(res => {
-
-                // res.pages 总页数
                 // 数据渲染
-                // ES6
                 let {
                     code,
                     msg,
@@ -231,16 +221,13 @@
                 if (code === 200) {
                     let htmlStr = template('tmp_list', res)
                     $('#list').html(htmlStr)
-
-                    // --------渲染完毕调用懒加载
-                    // lazyload(); //引入jq用$('图片').lazyload();方法
+                    // --------渲染完毕调用懒加载-引入jq用$('图片').lazyload();方法
                     $('.img').lazyload();
                     // 优化分页条
                     if (pages <= 1) {
                         return
                     }
                     // 3.分页
-                    // 分页基础代码
                     $('#pagination-demo').twbsPagination({
                         initiateStartPageClick: false, // 初始时，不要去点击起始页
                         totalPages: pages, // 总页数
@@ -265,7 +252,6 @@
         getAndShow();
         // 3.热门排行 type 对应，类别id
         article.rank(id).then(res => {
-            // ES6
             let {
                 code,
                 msg,

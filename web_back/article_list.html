@@ -127,13 +127,13 @@
         {{/each}}
     </script>
     <script>
-        let curPage = 1; //全局变量查询当前文章的页数
-        let curType = ''; //全局变量查询当前文章的类型编号
-        let curStatus = ''; //全局变量查询当前文章的状态
+        let curPage = 1 //全局变量查询当前文章的页数
+        let curType = '' //全局变量查询当前文章的类型编号
+        let curStatus = '' //全局变量查询当前文章的状态
         let curTotalPage; //记录上一次获得的总页数
 
 
-        //文章列表            category译 类别
+        //文章列表           
         // 1.获取所有文章信息，显示在下拉列表中
         // 调用接口，获取数据，用art template渲染到页面上
         category.get().then(res => {
@@ -144,6 +144,8 @@
 
         // 2.获取文章列表 并显示在表格  
         // 调接口  获取数据 arttemplate 渲染
+        getAndShow();
+
         function getAndShow() {
             article.get(curPage, curType, curStatus).then(res => {
                 let {
@@ -152,17 +154,15 @@
                     totalPage
                 } = res
                 if (code === 200) {
-                    // (1)art渲染
                     let htmlStr = template('tmp_list', res)
                     $('#tbody').html(htmlStr)
-                    // (2)设置分页插件
-                    // 分页插件
-                    // 用于筛选时 页码动态不确定  当前页数与前一次页数不同时 destroy摧毁原有页码 后重建
+                    // 用于筛选时 页码动态不确定  当前页数与前一次页数不同时 
+                    // destroy摧毁原有页码 后重建
                     if (curTotalPage !== totalPage) {
                         $('#pagination').twbsPagination('destroy') //固定写法
                         curTotalPage = totalPage
                     }
-
+                    // 分页插件
                     $('#pagination').twbsPagination({
                         totalPages: totalPage, //总页数
                         visiblePages: 6,
@@ -172,20 +172,16 @@
                         next: '下一页',
                         initiateStartPageClick: false, //初始时，不点击起始页
                         onPageClick: function (event, page) {
-                            // 从新去获取当前page页数的数据  调用get  重复调用 封装 
+                            // 重新去获取当前page页数的数据 
                             curPage = page; //定义变量当前页数数据
                             getAndShow();
-                            // alert(page);
                         }
                     });
-
                 } else {
                     alert(msg)
                 }
-
             });
         }
-        getAndShow();
 
         // 3. 文章的筛选 点击事件
         // 思路：获取用户选择 调接口 返回选择
@@ -196,31 +192,16 @@
             curType = $('#selCategory').val(); //类别编号
             curStatus = $('#selStatus').val(); //文章状态
             getAndShow();
-            console.log(curType, curStatus);
-
         });
-        // 页码动态不确定时  destroy摧毁原有页码 后重建 到getAndShow中添加步骤
 
         // 4.删除 事件委托 
         $('#tbody').on('click', '.del', function () {
-            // if (confirm('你去定要删除吗！') === true) {
-            //     let id = $(this).attr('data-id');
-            //     article.del(id).then(function (res) {
-            //         if (code === 200) {
-            //             getAndShow();
-            //         } else {
-            //             alert(res.msg);
-            //         }
-
-            //     })
-            // }
-            // 代码原则 ----------尽早结束--------+500￥
-            if (!confirm('你去定要删除吗！')) {
+            // 代码原则 ----------尽早结束
+            if (!confirm('你确定要删除吗！')) {
                 return;
             }
             let id = $(this).attr('data-id');
-            article.del(id).then(function (res) {
-                // ES6
+            article.del(id).then(res => {
                 let {
                     code,
                     msg,
