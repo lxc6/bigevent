@@ -156,8 +156,8 @@
         // 3.发送请求 4.接收请求结果后续dom 
 
         // 1.查 和 显示
-        let GetAndShow = function () {
-            category.get().then(function (res) {
+        let GetAndShow = () => {
+            category.get().then(res => {
                 // 固定写法-------------模板id ,模板数据对象
                 var htmlStr = template('tmp_cate', res)
                 //将获得的模板字符添加到html中
@@ -168,7 +168,7 @@
         GetAndShow();
 
         // 2.新增  弹出模态框 收集信息 判空  发送请求  后续
-        $('#model_add').click(function () {
+        $('#model_add').click(() => {
             // 获取信息
             let name = $('#name').val().trim()
             let slug = $('#slug').val().trim()
@@ -176,7 +176,7 @@
                 alert('内容不能为空！')
                 return
             }
-            category.add(name, slug).then(function (res) {
+            category.add(name, slug).then(res => {
                 // 判断成功失败
                 // ES6
                 let {
@@ -197,7 +197,7 @@
             })
         });
         // 点击关闭 隐藏模态框
-        $('#model_off').click(function () {
+        $('#model_off').click(() => {
             // 隐藏模态框
             $('#addModal').modal('hide')
         })
@@ -207,7 +207,7 @@
             // 生成按钮时  设置自定义属性   获取自定义属性
             let id = $(this).attr('data_id')
             // 请求接口
-            category.del(id).then(function (res) {
+            category.del(id).then(res => {
                 // ES6
                 let {
                     code,
@@ -223,7 +223,7 @@
                     alert(msg);
                 }
             })
-        });
+        })
 
         // 4.编辑   点击事件  弹出模态框  获取文本框信息 增删改信息 判空 请求接口 后续
         $('#tbody').on('click', '.edit', function () {
@@ -240,7 +240,7 @@
             $('#editModal').modal('show')
         });
         // 点击实现保存修改
-        $('#model_slave').click(function () {
+        $('#model_slave').click(() => {
             let new_id = $('#edit_id').val().trim()
             let new_name = $('#edit_name').val().trim()
             let new_slug = $('#edit_slug').val().trim()
@@ -250,7 +250,7 @@
             }
             // 发送请求
             // 接口参数有3个  id 需在html中添加一个隐藏文本框
-            category.edit(new_id, new_name, new_slug).then(function (res) {
+            category.edit(new_id, new_name, new_slug).then(res => {
                 // ES6
                 let {
                     code,
@@ -264,7 +264,7 @@
                 }
             })
         });
-        $('#edit_off').click(function () {
+        $('#edit_off').click(() => {
             $('#editModal').modal('hide')
         });
     </script>
