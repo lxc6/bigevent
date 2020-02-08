@@ -192,7 +192,7 @@
         // 1.从地址兰获取id  window.location 选中高亮
         let id = window.location.search.substr(4);
         // console.log(id);
-        category.get().then(function (res) {
+        category.get().then(res => {
             // ES6
             let {
                 data
@@ -207,7 +207,7 @@
             $('#select').append(htmlStr)
 
             // 4.通过数组遍历匹配 获取id
-            data.forEach(function (item) {
+            data.forEach(item => {
                 if (item.id == id) {
                     $('#cateName').html(item.name)
                 }
@@ -218,7 +218,7 @@
         // 2. 显示分类内容--- type 与当前id对应
         let curPage = 1; //当前第几页的数据
         function getAndShow() {
-            article.show(id, curPage).then(function (res) {
+            article.show(id, curPage).then(res => {
 
                 // res.pages 总页数
                 // 数据渲染
@@ -264,7 +264,7 @@
         }
         getAndShow();
         // 3.热门排行 type 对应，类别id
-        article.rank(id).then(function (res) {
+        article.rank(id).then(res => {
             // ES6
             let {
                 code,

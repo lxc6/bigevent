@@ -46,26 +46,7 @@
     <div class="main_con clearfix">
         <div class="left_con">
             <ul class="focus_list" id="focus_list">
-                <!-- <li class="first">
-                    <a href="#"><img src="images/pic01.jpg" alt=""></a>
-                    <p>图片说明</p>
-                </li> -->
-                <!-- <li>
-                    <a href="#"><img src="images/pic02.jpg" alt=""></a>
-                    <p>图片说明图片说明图片说明图片说明图片说明图片说明图片说明图片说明图片说明</p>
-                </li>
-                <li>
-                    <a href="#"><img src="images/pic03.jpg" alt=""></a>
-                    <p>图片说明</p>
-                </li>
-                <li>
-                    <a href="#"><img src="images/pic05.jpg" alt=""></a>
-                    <p>图片说明</p>
-                </li>
-                <li>
-                    <a href="#"><img src="images/pic06.jpg" alt=""></a>
-                    <p>图片说明</p>
-                </li> -->
+                焦点图
             </ul>
 
             <div class="common_title">
@@ -167,7 +148,7 @@
             {{else}}
         <li>
             {{/if}}
-            <a href="#"><img src="{{item.cover}}" alt=""></a>
+            <a href="./article.html?id={{item.id}}"><img src="{{item.cover}}" alt=""></a>
             <p>{{item.title}}</p>
         </li>
         {{/each}}
@@ -177,13 +158,13 @@
     <script id="tmp_rank" type="text/html">
         {{each data item index}}
         {{if index == 0}}
-        <li><span class="first">{{index+1}}</span><a href="#">{{item.title}}</a></li>
+        <li><span class="first">{{index+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
         {{else if index == 1}}
-        <li><span class="second">{{index+1}}</span><a href="#">{{item.title}}</a></li>
+        <li><span class="second">{{index+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
         {{else if index == 2}}
-        <li><span class="third">{{index+1}}</span><a href="#">{{item.title}}</a></li>
+        <li><span class="third">{{index+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
         {{else}}
-        <li><span>{{index+1}}</span><a href="#">{{item.title}}</a></li>
+        <li><span>{{index+1}}</span><a href="./article.html?id={{item.id}}">{{item.title}}</a></li>
         {{/if}}
         {{/each}}
     </script>
@@ -191,8 +172,8 @@
     <script id="tmp_latest" type="text/html">
         {{each data item}}
         <div class="common_news_list">
-            <a href="#" class="list_pic"><img src="{{item.cover}}" alt=""></a>
-            <h4><a href="#">{{item.title}} </a></h4>
+            <a href="./article.html?id={{item.id}}" class="list_pic"><img src="{{item.cover}}" alt=""></a>
+            <h4><a href="./article.html?id={{item.id}}">{{item.title}} </a></h4>
             <p>{{item.intro}}</p>
             <div class="new_info">
                 <span>标签：{{item.type}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读(
@@ -204,7 +185,7 @@
     </script>
     <script>
         // 1.获取文章类型并显示
-        category.get().then(function (res) {
+        category.get().then(res => {
             let htmlStr = template('tmp_cate', res)
             // console.log(htmlStr);
             // 1.显示  替换
@@ -213,22 +194,20 @@
             $('#select').append(htmlStr)
         });
         // 2.显示焦点图
-        article.getFocusFive().then(function (res) {
+        article.getFocusFive().then(res => {
             let htmlStr = template('tmp_focus', res)
-            // console.log(res);
-
-            // console.log(htmlStr);
             $('#focus_list').html(htmlStr)
         });
         // 3.文章热点排行
-        article.rank().then(function (res) {
-            // console.log(res);
+        article.rank().then(res => {
             let htmlStr = template('tmp_rank', res)
             $('#rank').html(htmlStr)
 
         });
         // 4.最新资讯
-        article.latest().then(function (res) {
+        article.latest().then(res => {
+            console.log(res);
+
             // ES6
             let {
                 code,

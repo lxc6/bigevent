@@ -61,7 +61,7 @@
     // 思路：
     // 给按钮添加事件   获取信息  ， 判断空  请求接口  根据反馈 后续
     // 注册
-    $('#btnLogin').click(function () {
+    $('#btnLogin').click(() => {
         let name = $('#userName').val().trim();
         let password = $('#password').val().trim();
         if (name.length === 0 || password.length === 0) {
@@ -69,7 +69,7 @@
             return
         }
         // 调用 请求
-        user.login(name, password).then(function (res) {
+        user.login(name, password).then(res => {
             // 判断成功失败
             // ES6
             let {
@@ -84,7 +84,7 @@
             }
         })
     })
-    $('.key_001').keyup(function (e) {
+    $('.key_001').keyup(e => {
         // 键盘事件对象
         if (e.keyCode == 13) {
             $('#btnLogin').click();

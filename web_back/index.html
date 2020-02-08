@@ -147,8 +147,8 @@
         // 用户退出
 
         // 请求接口
-        $('#btnLogout').click(function () {
-            user.logout().then(function (res) {
+        $('#btnLogout').click(() => {
+            user.logout().then(res => {
                 // ES6
                 let {
                     code,
@@ -163,15 +163,21 @@
         });
 
         // 替换管理员信息
-        user.getInfo().then(function (res) {
+        user.getInfo().then(res => {
             // ES6
             let {
                 code,
                 msg,
+                data: {
+                    nickname,
+                    user_pic
+                }
             } = res
+            console.log(res);
+
             if (code === 200) {
-                $('#userName').text(res.data.nickname)
-                $('.userImg').attr('src', res.data.user_pic)
+                $('#userName').text(nickname)
+                $('.userImg').attr('src', user_pic)
             } else {
                 alert(msg)
             }

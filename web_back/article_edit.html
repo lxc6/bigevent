@@ -97,7 +97,7 @@
         // 获取id值
         // var id = idStr.substr(4)
         let id = window.location.search.substr(4)
-        // 直接打开此页面时
+        // 直接打开此页面时   需要从列表页跳转编辑才不会报错
         function cur() {
             if (id.length == 0) {
                 // 用来重置
@@ -119,23 +119,33 @@
                     data
                 } = res
                 console.log(data);
-                // let [{
-                //     title,
-                //     cover,
-                //     date,
-                //     type,
-                //     content
-                // }] = data    无法确定下标
+                // find方法  data不是数组无法使用  Array.from()只能转化伪数组
+                // let index = data.find((item, index) => {
+                //     if (item.id == id) {
+                //         return index
+                //     }
+                // });
+                // let index = res.data.findIndex(item => item.id == id);
+                // console.log(index);
+
+                let {
+                    title,
+                    cover,
+                    date,
+                    type,
+                    content
+                } = data
+
                 if (code === 200) {
                     // 把数据填入表单 显示
-                    $('#title').val(data.title)
-                    $('#cover').attr('src', data.cover)
-                    $('#date').val(data.date)
+                    $('#title').val(title)
+                    $('#cover').attr('src', cover)
+                    $('#date').val(date)
                     //类别
-                    $('#type').val(data.type)
+                    $('#type').val(type)
                     // 富文本编辑器  最好设置延时
                     setTimeout(() => {
-                        tinymce.activeEditor.setContent(data.content)
+                        tinymce.activeEditor.setContent(content)
                     }, 500)
                 } else {
                     alert(msg)

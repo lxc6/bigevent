@@ -215,8 +215,8 @@
         // 1.获取当前页面id
         let id = location.search.substr(4);
         // 2.获取数据
-        article.detail(id).then(function (res) {
-            console.log(res);
+        article.detail(id).then(res => {
+
             // ES6
             let {
                 code,
@@ -258,13 +258,13 @@
                 $('#comment').html(comment);
                 $('.type_name').html(type_name);
             } else {
-                alert(res.msg)
+                alert(msg)
             }
         });
         // 3. 用户评论  点击 收集   获取接口发送请求 获取
 
         getAndShow();
-        $('#btn').click(function () {
+        $('#btn').click(() => {
             // 收集信息
             let name = $('#comment_name').val().trim();
             let cont = $('#comment_content').val().trim();
@@ -274,13 +274,11 @@
                     message: "内容不能为空！",
                     className: 'rubberBand animated'
                 });
-
-                // alert('内容不能为空')
                 return
             }
 
             // 4.添加评论并显示
-            comment.add(name, cont, id).then(function (res) {
+            comment.add(name, cont, id).then(res => {
                 // ES6
                 let {
                     code,
@@ -299,7 +297,7 @@
         });
 
         function getAndShow() {
-            comment.get(id).then(function (res) {
+            comment.get(id).then(res => {
                 // ES6
                 let {
                     code,
@@ -309,7 +307,7 @@
                 if (code === 200) {
                     // 对每一条留言的的时间戳进行转化
                     // data数据为数组 为其每一项添加属性
-                    data.forEach(function (item) {
+                    data.forEach(item => {
                         // 为每一项添加新属性 值为时间戳转化的值
                         item.relativeTime = dayjs(item.dt).fromNow();
                     })
