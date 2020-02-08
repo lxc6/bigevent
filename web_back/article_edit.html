@@ -111,7 +111,7 @@
         // 3. 实现保存编辑
         // 封装
         function getAndShow(id) {
-            article.getId(id).then(function (res) {
+            article.getId(id).then(res => {
                 // ES6
                 let {
                     code,
@@ -134,7 +134,7 @@
                     //类别
                     $('#type').val(data.type)
                     // 富文本编辑器  最好设置延时
-                    setTimeout(function () {
+                    setTimeout(() => {
                         tinymce.activeEditor.setContent(data.content)
                     }, 500)
                 } else {
@@ -145,7 +145,7 @@
         }
 
         function getAndShowCategory() {
-            category.get().then(function (res) {
+            category.get().then(res => {
                 // console.log(res);
                 let {
                     code,
@@ -166,14 +166,14 @@
         }
         getAndShowCategory();
         // 添加事件 获取表单数据 保存
-        $('#saveBtn').click(function () {
+        $('#saveBtn').click(() => {
             // 获取数据
             let fd = new FormData(document.getElementById('form'))
             // 添加id
             fd.append('id', id)
             // 内容 set 更新表单富文本content
             fd.set('content', tinymce.activeEditor.getContent());
-            article.edit(fd).then(function (res) {
+            article.edit(fd).then(res => {
                 let {
                     code,
                     msg

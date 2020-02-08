@@ -91,7 +91,7 @@
 
     <script>
         // 设置左侧菜单
-        $('#release_btn').click(function () {
+        $('#release_btn').click(() => {
             window.parent.setMenu(1, 1);
         });
     </script>
@@ -136,7 +136,7 @@
         //文章列表            category译 类别
         // 1.获取所有文章信息，显示在下拉列表中
         // 调用接口，获取数据，用art template渲染到页面上
-        category.get().then(function (res) {
+        category.get().then(res => {
             //          art template  渲染
             let htmlStr = template('tmp_category', res)
             $('#selCategory').html(htmlStr)
@@ -145,7 +145,7 @@
         // 2.获取文章列表 并显示在表格  
         // 调接口  获取数据 arttemplate 渲染
         function getAndShow() {
-            article.get(curPage, curType, curStatus).then(function (res) {
+            article.get(curPage, curType, curStatus).then(res => {
                 let {
                     code,
                     msg,
@@ -189,7 +189,7 @@
 
         // 3. 文章的筛选 点击事件
         // 思路：获取用户选择 调接口 返回选择
-        $('#btnSearch').click(function () {
+        $('#btnSearch').click(() => {
             // 筛选时 默认页数从第一页开始
             curPage = 1;
             // 通过设置value获取id
