@@ -216,7 +216,6 @@
         let id = location.search.substr(4);
         // 2.获取数据
         article.detail(id).then(res => {
-            console.log(res);
 
             let {
                 code,
@@ -264,6 +263,7 @@
         // 3. 用户评论  点击 收集   获取接口发送请求 获取
 
         getAndShow();
+        // 发布评论
         $('#btn').click(() => {
             // 收集信息
             let name = $('#comment_name').val().trim();
@@ -295,16 +295,17 @@
                 }
             })
         });
-
+        // 显示评论
         function getAndShow() {
             comment.get(id).then(res => {
-                // ES6
                 let {
                     code,
                     msg,
                     data
                 } = res
                 if (code === 200) {
+                    // 评论数量
+                    $('#comment_amount').html(`${data.length}条评论`)
                     // 对每一条留言的的时间戳进行转化
                     // data数据为数组 为其每一项添加属性
                     data.forEach(item => {
@@ -324,6 +325,7 @@
 
             })
         }
+
         // 创建函数，单独转化时间戳为相对时间
         // function getTime(dt) {
         //     return dayjs(dt).fromNow();

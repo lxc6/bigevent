@@ -8,6 +8,10 @@ let user = {
     // 登出
     logout: () => $.post(APILIST.user_logout),
     // 获取
-    getInfo: () => $.get(APILIST.user_getuser)
+    getInfo: () => $.get(APILIST.user_getuser),
+
+    // 
+    get: () => $.get(APILIST.user_get),
+    edit: (fd) => $.post(APILIST.user_edit),
 
 }

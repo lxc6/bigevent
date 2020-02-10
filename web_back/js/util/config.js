@@ -10,6 +10,9 @@ const APILIST = {
     user_login: BASEURL + '/admin/login',
     user_logout: BASEURL + '/admin/logout',
     user_getuser: BASEURL + '/admin/getuser',
+    //用户信息修改 
+    user_get: BASEURL + '/admin/userinfo_get',
+    user_edit: BASEURL + '/admin/userinfo_edit',
 
     // 类别管理接口
     // 获取
